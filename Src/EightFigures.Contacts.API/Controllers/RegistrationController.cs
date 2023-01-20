@@ -13,6 +13,6 @@ namespace EightFigures.Contacts.API.Controllers
 
         [HttpPost]
         [Produces("application/json")]
-        public async Task Register([FromBody] UserAddDto dto) => await userService.Add(dto);
+        public async Task<int> Register([FromBody] UserAddDto dto) => await userService.Add(dto);
     }
 }

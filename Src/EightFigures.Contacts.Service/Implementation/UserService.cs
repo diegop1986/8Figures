@@ -26,14 +26,16 @@ namespace EightFigures.Contacts.Service.Implementation
             this.tokenManagerService = tokenManagerService;
         }
 
-        public async Task Add(UserAddDto dto)
+        public async Task<int> Add(UserAddDto dto)
         {
             validationService.EnsureValid(dto);
             var @new = mapper.Map<User>(dto);
             @new.Password  = @new.Password.Encrypt(settings.EncryptionKey);
             if (await userRepository.Exists(x => x.LogIn == @new.LogIn)) throw new ExistingLogInException(@new.LogIn);
+            if (await userRepository.Exists(x => x.Email == @new.Email)) throw new ExistingEmailException(@new.Email);
 
-            await userRepository.Ins(@new);
+            var newUser = await userRepository.Ins(@new);
+            return newUser.Id;
         }
 
         public async Task<UserInfoDto> GetLogIn(LogInDto dto)

@@ -4,7 +4,7 @@ namespace EightFigures.Contacts.Service.Interface
 {
     public interface IUserService
     {
-        Task Add(UserAddDto dto);
+        Task<int> Add(UserAddDto dto);
 
         Task<UserInfoDto> GetLogIn(LogInDto dto);
     }
